@@ -13,6 +13,8 @@ Because it's a steady pattern and not a one-off spike, I'd read this as a budget
 
 Note: the dataset is synthetic (made for practice), so the numbers aren't from a real company. The approach is the same as I'd use on real data though.
 
+![Dashboard](dashboard.png)
+
 ## What's in the dashboard
 
 - KPI cards for total budget, total actual, variance and variance %
