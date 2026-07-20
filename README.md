@@ -1,51 +1,46 @@
 # Budget-Variance-Dashboard
 # Budget vs Actual Spending Analysis (2021–2023)
 
-A Power BI dashboard analysing budget-versus-actual spending across six departments over a three-year period, with variance breakdowns, driver ranking, and a forward forecast.
-
----
+A Power BI dashboard I built to analyse budget vs actual spending across six departments over three years. It covers variance by department, a ranked view of the biggest drivers, and a forecast.
 
 ## Executive summary
 
-Across 2021–2023, actual spending came in at 890M against a budget of 795M, an overrun of 95M, or about 12% over plan. The overspend isn't isolated to one area: all six departments finished over budget. Marketing was the biggest contributor at roughly 19.9M of variance, followed by HR (18.1M) and Sales (16.6M).
+Actual spending was 890M against a budget of 795M, so an overrun of 95M, about 12% over plan. All six departments came in over budget, not just one or two. Marketing had the largest variance at around 19.9M, then HR at 18.1M and Sales at 16.6M.
 
-What stood out most was the consistency. Variance stayed positive in essentially every month across all three years, spending never dipped back under budget, even briefly. The forecast projects this pattern continuing into early 2024.
+The thing I found most interesting was how consistent it was. Variance stayed positive in almost every month across all three years. Spending never really dropped back under budget at any point. The forecast suggests this carries on into early 2024.
 
-Given that the overrun is persistent rather than a one-off, I'd treat it as a planning problem more than a one-time cost spike. A mid-year reforecast would be sensible, along with tighter spend review on the three largest drivers (Marketing, HR, Sales), since those three alone account for the bulk of the total variance.
+Because it's a steady pattern and not a one-off spike, I'd read this as a budgeting/planning issue rather than a sudden cost problem. A mid-year reforecast seems sensible, plus closer review of Marketing, HR and Sales since those three make up most of the total variance.
 
-*Note: this dataset is synthetic, generated for analysis practice, so the figures don't reflect a real company. The methods and the dashboard, however, are built the same way I'd approach real budget data.*
+Note: the dataset is synthetic (made for practice), so the numbers aren't from a real company. The approach is the same as I'd use on real data though.
 
----
+## What's in the dashboard
 
-## What the dashboard shows
-
-- **Headline KPIs** — total budget, total actual, total variance, and variance as a percentage of budget.
-- **Variance by department** — a ranked bar chart, colour-coded so anything over budget reads red at a glance.
-- **Budget status** — a single indicator that classifies the overall position (here, "Significantly Over Budget") based on the variance percentage.
-- **Top drivers** — a ranked table surfacing the three departments contributing most to the overrun.
-- **Variance over time** — a monthly trend across the full period, with a forecast extending the line forward.
+- KPI cards for total budget, total actual, variance and variance %
+- Variance by department, colour coded so over-budget shows red
+- A budget status indicator that classifies the position (currently "Significantly Over Budget")
+- A top drivers table showing the three departments contributing most to the overrun
+- Monthly variance trend with a forecast
 
 ## How I built it
 
-The data started as ~10,000 transaction-level rows with budget and actual amounts by department, category, and region. I cleaned it in Power Query first, removed duplicate records, handled a handful of missing values, and derived a proper month-level date field so the time series would sort and forecast correctly (the raw daily data was too noisy to read as a trend).
+The raw file had around 10,000 rows of transaction level data with budget and actual amounts by department, category and region.
 
-The analysis runs on a set of DAX measures rather than pre-calculated columns, so everything responds to filtering:
+I cleaned it in Power Query first, removed the duplicate records, dealt with a few missing values, and pulled month and year out of the date column. I also had to create a proper month-year column, because plotting it by day was far too noisy to see any trend, and using just month names meant all three years got merged together. That part took a few attempts to get right.
 
-- **Variance** and **Variance %** as the base measures.
-- **YTD Variance** using time-intelligence, to show accumulation within each year.
-- **Month-over-month variance change**, to see whether the gap is widening or narrowing.
-- A **budget status** measure using `SWITCH` to classify the position against thresholds.
-- A **department ranking** using `RANKX` to drive the top-drivers table automatically.
+For the analysis I used DAX measures rather than calculated columns so everything responds to filters:
 
-The forecast uses Power BI's built-in forecasting on the monthly series. As the underlying data is synthetic, the seasonal signal is limited. I've kept the forecast in as a demonstration of the technique rather than a claim about a real trend.
+- Variance and Variance % as the base measures
+- YTD Variance using time intelligence
+- Month-over-month variance change
+- A budget status measure using SWITCH to classify against thresholds
+- A department ranking using RANKX, which drives the top drivers table
+
+The forecast is Power BI's built-in forecasting on the monthly series. Since the data is synthetic there isn't much real seasonality in it, so I've included it more to show the method than to make any claim about an actual trend.
 
 ## Tools
 
-Power BI Desktop (Power Query for cleaning, DAX for measures), built from an Excel source file.
+Power BI Desktop — Power Query for cleaning, DAX for the measures. Source data was an Excel file.
 
-## What I'd add next
+## What I'd do next
 
-With real data, the natural extensions would be a driver breakdown separating volume effects from rate effects, and a drill-through page per department for detail. Those need columns this synthetic set doesn't include, so I've left them as next steps rather than forcing them.
-What I'd add next
-
-With real data, the natural extensions would be a driver breakdown separating volume effects from rate effects, and a drill-through page per department for detail. Those need columns this synthetic set doesn't include, so I've left them as next steps rather than forcing them.
+With real data I'd want to add a driver analysis splitting volume vs rate effects, and a drill-through page for each department. This dataset doesn't have a units/quantity column so I couldn't do the volume split properly, and I'd rather leave it out than fake it.iver breakdown separating volume effects from rate effects, and a drill-through page per department for detail. Those need columns this synthetic set doesn't include, so I've left them as next steps rather than forcing them.
